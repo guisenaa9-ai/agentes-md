@@ -2,11 +2,12 @@
 
 from collections.abc import Callable
 
-from agentes import marketing
+from agentes import financeiro, marketing
 
 # Cada departamento expõe uma função que recebe a solicitação do usuário
 # e devolve a resposta final dos agentes em texto.
 DEPARTAMENTOS: dict[str, Callable[[str], str]] = {
+    "financeiro": financeiro.executar,
     "marketing": marketing.executar,
 }
 

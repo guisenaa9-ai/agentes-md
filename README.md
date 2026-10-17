@@ -60,7 +60,16 @@ Este repositório contém agentes de IA para os seguintes setores:
    ```
    A documentação interativa fica em `http://localhost:8000/docs`.
 
-Agentes disponíveis no momento: **Marketing**. Para adicionar um departamento, crie um módulo em `agentes/` com uma função `executar(solicitacao: str) -> str` e registre-o em `agentes/__init__.py`.
+   Para o agente Financeiro, é possível anexar um arquivo de dados (CSV ou TXT) à solicitação:  
+   ```bash
+   python run_agent.py --department financeiro --input "Projete o caixa dos próximos 3 meses" --file extrato.csv
+   ```
+
+Agentes disponíveis no momento:
+- **Financeiro** (`financeiro`) - análise e projeção de fluxo de caixa, detecção de anomalias e relatório executivo. Os agentes usam apenas os dados enviados e declaram as premissas quando falta informação.
+- **Marketing** (`marketing`) - tendências de mercado, público-alvo e plano de campanha.
+
+Para adicionar um departamento, crie um módulo em `agentes/` com uma função `executar(solicitacao: str) -> str` e registre-o em `agentes/__init__.py`.
 
 ## 🤝 Contribuições  
 Contribuições são bem-vindas! Se você tem ideias para novos agentes ou melhorias, siga os passos abaixo:  
