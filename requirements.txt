@@ -5,3 +5,4 @@ uvicorn
 crewai
 crewai[tools,google-genai]
 python-dotenv
+openpyxl

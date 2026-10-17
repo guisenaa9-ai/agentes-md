@@ -10,7 +10,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from agentes import DEPARTAMENTOS, executar
+from agentes import DEPARTAMENTOS, anexar_dados, executar
 
 
 def main() -> None:
@@ -24,7 +24,7 @@ def main() -> None:
     solicitacao = args.input or input("Descreva sua solicitação: ")
     if args.file:
         dados = args.file.read_text(encoding="utf-8")
-        solicitacao += f"\n\nDados do arquivo {args.file.name}:\n{dados}"
+        solicitacao = anexar_dados(solicitacao, args.file.name, dados)
     print(executar(args.department, solicitacao))
 
 

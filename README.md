@@ -77,6 +77,26 @@ Agentes disponíveis no momento:
 
 Para adicionar um departamento, crie um módulo em `agentes/` com uma função `executar(solicitacao: str) -> str` e registre-o em `agentes/__init__.py`.
 
+## Usar pelo navegador (sem instalar nada)
+
+O arquivo `app.py` é uma interface web em Streamlit: escolha o departamento, escreva a solicitação e, se quiser, envie um CSV ou uma planilha Excel. O relatório aparece na tela e pode ser baixado.
+
+Para publicar gratuitamente no **Streamlit Community Cloud**:
+1. Acesse https://share.streamlit.io e entre com a conta do GitHub.
+2. Clique em **Create app** → **Deploy a public app from GitHub**.
+3. Preencha: repositório `guisenaa9-ai/agentes-md`, branch `main`, arquivo `app.py`.
+4. Em **Advanced settings**, escolha Python **3.12** e cole em **Secrets**:
+   ```toml
+   MODEL = "gemini/gemini-2.5-flash"
+   GEMINI_API_KEY = "sua-chave-aqui"
+   APP_PASSWORD = "uma-senha-forte"
+   ```
+5. Clique em **Deploy**. Em alguns minutos o app fica disponível em um link `https://....streamlit.app`.
+
+A `APP_PASSWORD` é recomendada: sem ela, qualquer pessoa com o link consegue usar o app e consumir a cota da sua chave.
+
+Para rodar a interface localmente: `streamlit run app.py`.
+
 ## 🤝 Contribuições  
 Contribuições são bem-vindas! Se você tem ideias para novos agentes ou melhorias, siga os passos abaixo:  
 

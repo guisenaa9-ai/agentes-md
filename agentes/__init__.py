@@ -22,3 +22,8 @@ def executar(departamento: str, solicitacao: str) -> str:
             f"Departamento '{departamento}' não encontrado. Disponíveis: {disponiveis}"
         ) from None
     return executar_departamento(solicitacao)
+
+
+def anexar_dados(solicitacao: str, nome_arquivo: str, conteudo: str) -> str:
+    """Acrescenta o conteúdo de um arquivo de dados à solicitação."""
+    return f"{solicitacao}\n\nDados do arquivo {nome_arquivo}:\n{conteudo}"
