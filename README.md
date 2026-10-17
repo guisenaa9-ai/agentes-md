@@ -31,7 +31,7 @@ Este repositório contém agentes de IA para os seguintes setores:
 ## Stack Tecnológica  
 - **CrewAI** - Framework de orquestração de agentes de IA que permite criar, coordenar e gerenciar equipes de agentes autônomos.  
 - **FastAPI** - Framework web Python moderno, rápido e assíncrono para construção de APIs com validação automática, documentação interativa e excelente performance, permitindo a integração eficiente entre agentes de IA e sistemas externos.  
-- **OpenAI GPT** - Modelos avançados de IA para processamento de linguagem natural.  
+- **LLMs** - Google Gemini (gratuito), Ollama (local) ou OpenAI GPT, configuráveis pelo `.env`.  
 
 ## Como Usar  
 1. Clone este repositório:  
@@ -43,10 +43,16 @@ Este repositório contém agentes de IA para os seguintes setores:
    ```bash
    pip install -r requirements.txt
    ```
-3. Configure as chaves de API (a `SERPER_API_KEY` é opcional e habilita busca na web):  
+3. Configure o modelo e a chave de API:  
    ```bash
    cp .env_example .env
    ```
+   Escolha o modelo na variável `MODEL` do `.env` e preencha a chave correspondente:
+   - **Gemini (gratuito):** `MODEL=gemini/gemini-2.5-flash` + `GEMINI_API_KEY`, gerada sem cartão em https://aistudio.google.com/apikey. O plano gratuito tem limite de requisições por minuto e por dia, e o Google pode usar os dados enviados para melhorar os modelos. Evite dados sensíveis.
+   - **Ollama (gratuito, local):** instale em https://ollama.com, rode `ollama pull llama3.1` e use `MODEL=ollama/llama3.1`. Os dados não saem do seu computador, mas exige uma máquina com boa memória.
+   - **OpenAI (pago):** `MODEL=gpt-4.1-mini` + `OPENAI_API_KEY`, gerada em https://platform.openai.com/api-keys.
+
+   A `SERPER_API_KEY` é opcional e habilita busca na web no agente de Marketing.
 4. Execute o agente desejado:  
    ```bash
    python run_agent.py --department marketing --input "Lançamento de um app de finanças pessoais"
