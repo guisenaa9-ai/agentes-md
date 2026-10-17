@@ -3,4 +3,4 @@ pydantic
 streamlit
 uvicorn
 crewai
-crewai[tools]
+crewai[tools]python-dotenv

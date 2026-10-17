@@ -36,17 +36,31 @@ Este repositório contém agentes de IA para os seguintes setores:
 ## Como Usar  
 1. Clone este repositório:  
    ```bash
-   git clone https://github.com/seu-usuario/ai-agents-hub.git
-   cd ai-agents-hub
+   git clone https://github.com/guisenaa9-ai/agentes-md.git
+   cd agentes-md
    ```
 2. Instale as dependências:  
    ```bash
    pip install -r requirements.txt
    ```
-3. Execute o agente desejado:  
+3. Configure as chaves de API (a `SERPER_API_KEY` é opcional e habilita busca na web):  
    ```bash
-   python run_agent.py --department marketing
+   cp .env_example .env
    ```
+4. Execute o agente desejado:  
+   ```bash
+   python run_agent.py --department marketing --input "Lançamento de um app de finanças pessoais"
+   ```
+5. Ou suba a API e chame os agentes via HTTP:  
+   ```bash
+   uvicorn api:app --reload
+   curl -X POST http://localhost:8000/agentes/marketing \
+        -H "Content-Type: application/json" \
+        -d '{"solicitacao": "Lançamento de um app de finanças pessoais"}'
+   ```
+   A documentação interativa fica em `http://localhost:8000/docs`.
+
+Agentes disponíveis no momento: **Marketing**. Para adicionar um departamento, crie um módulo em `agentes/` com uma função `executar(solicitacao: str) -> str` e registre-o em `agentes/__init__.py`.
 
 ## 🤝 Contribuições  
 Contribuições são bem-vindas! Se você tem ideias para novos agentes ou melhorias, siga os passos abaixo:  
