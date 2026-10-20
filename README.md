@@ -31,22 +31,71 @@ Este repositório contém agentes de IA para os seguintes setores:
 ## Stack Tecnológica  
 - **CrewAI** - Framework de orquestração de agentes de IA que permite criar, coordenar e gerenciar equipes de agentes autônomos.  
 - **FastAPI** - Framework web Python moderno, rápido e assíncrono para construção de APIs com validação automática, documentação interativa e excelente performance, permitindo a integração eficiente entre agentes de IA e sistemas externos.  
-- **OpenAI GPT** - Modelos avançados de IA para processamento de linguagem natural.  
+- **LLMs** - Google Gemini (gratuito), Ollama (local) ou OpenAI GPT, configuráveis pelo `.env`.  
 
 ## Como Usar  
 1. Clone este repositório:  
    ```bash
-   git clone https://github.com/seu-usuario/ai-agents-hub.git
-   cd ai-agents-hub
+   git clone https://github.com/guisenaa9-ai/agentes-md.git
+   cd agentes-md
    ```
 2. Instale as dependências:  
    ```bash
    pip install -r requirements.txt
    ```
-3. Execute o agente desejado:  
+3. Configure o modelo e a chave de API:  
    ```bash
-   python run_agent.py --department marketing
+   cp .env_example .env
    ```
+   Escolha o modelo na variável `MODEL` do `.env` e preencha a chave correspondente:
+   - **Gemini (gratuito):** `MODEL=gemini/gemini-2.5-flash` + `GEMINI_API_KEY`, gerada sem cartão em https://aistudio.google.com/apikey. O plano gratuito tem limite de requisições por minuto e por dia, e o Google pode usar os dados enviados para melhorar os modelos. Evite dados sensíveis.
+   - **Ollama (gratuito, local):** instale em https://ollama.com, rode `ollama pull llama3.1` e use `MODEL=ollama/llama3.1`. Os dados não saem do seu computador, mas exige uma máquina com boa memória.
+   - **OpenAI (pago):** `MODEL=gpt-4.1-mini` + `OPENAI_API_KEY`, gerada em https://platform.openai.com/api-keys.
+
+   A `SERPER_API_KEY` é opcional e habilita busca na web no agente de Marketing.
+4. Execute o agente desejado:  
+   ```bash
+   python run_agent.py --department marketing --input "Lançamento de um app de finanças pessoais"
+   ```
+5. Ou suba a API e chame os agentes via HTTP:  
+   ```bash
+   uvicorn api:app --reload
+   curl -X POST http://localhost:8000/agentes/marketing \
+        -H "Content-Type: application/json" \
+        -d '{"solicitacao": "Lançamento de um app de finanças pessoais"}'
+   ```
+   A documentação interativa fica em `http://localhost:8000/docs`.
+
+   Para o agente Financeiro, é possível anexar um arquivo de dados (CSV ou TXT) à solicitação:  
+   ```bash
+   python run_agent.py --department financeiro --input "Projete o caixa dos próximos 3 meses" --file extrato.csv
+   ```
+
+Agentes disponíveis no momento:
+- **Financeiro** (`financeiro`) - análise e projeção de fluxo de caixa, detecção de anomalias e relatório executivo. Os agentes usam apenas os dados enviados e declaram as premissas quando falta informação.
+- **Marketing** (`marketing`) - tendências de mercado, público-alvo e plano de campanha.
+
+Para adicionar um departamento, crie um módulo em `agentes/` com uma função `executar(solicitacao: str) -> str` e registre-o em `agentes/__init__.py`.
+
+## Usar pelo navegador (sem instalar nada)
+
+O arquivo `app.py` é uma interface web em Streamlit: escolha o departamento, escreva a solicitação e, se quiser, envie um CSV ou uma planilha Excel. O relatório aparece na tela e pode ser baixado.
+
+Para publicar gratuitamente no **Streamlit Community Cloud**:
+1. Acesse https://share.streamlit.io e entre com a conta do GitHub.
+2. Clique em **Create app** → **Deploy a public app from GitHub**.
+3. Preencha: repositório `guisenaa9-ai/agentes-md`, branch `main`, arquivo `app.py`.
+4. Em **Advanced settings**, escolha Python **3.12** e cole em **Secrets**:
+   ```toml
+   MODEL = "gemini/gemini-2.5-flash"
+   GEMINI_API_KEY = "sua-chave-aqui"
+   APP_PASSWORD = "uma-senha-forte"
+   ```
+5. Clique em **Deploy**. Em alguns minutos o app fica disponível em um link `https://....streamlit.app`.
+
+A `APP_PASSWORD` é recomendada: sem ela, qualquer pessoa com o link consegue usar o app e consumir a cota da sua chave.
+
+Para rodar a interface localmente: `streamlit run app.py`.
 
 ## 🤝 Contribuições  
 Contribuições são bem-vindas! Se você tem ideias para novos agentes ou melhorias, siga os passos abaixo:  

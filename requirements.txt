@@ -3,4 +3,6 @@ pydantic
 streamlit
 uvicorn
 crewai
-crewai[tools]
+crewai[tools,google-genai]
+python-dotenv
+openpyxl
