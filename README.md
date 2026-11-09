@@ -61,10 +61,13 @@ Este repositório contém agentes de IA para os seguintes setores:
    ```bash
    uvicorn api:app --reload
    curl -X POST http://localhost:8000/agentes/marketing \
+        -H "Authorization: Bearer $API_TOKEN" \
         -H "Content-Type: application/json" \
         -d '{"solicitacao": "Lançamento de um app de finanças pessoais"}'
    ```
-   A documentação interativa fica em `http://localhost:8000/docs`.
+   Toda chamada exige o cabeçalho `Authorization: Bearer <API_TOKEN>`, com o valor de `API_TOKEN` do `.env` (gere um com `python -c "import secrets; print(secrets.token_urlsafe(32))"`). Sem `API_TOKEN` configurado a API recusa todas as chamadas (503), e token errado ou ausente recebe 401. Assim, se a API for publicada, ninguém consome a cota da sua chave de IA sem o token.
+
+   A documentação interativa fica em `http://localhost:8000/docs`. Testes da API: `pip install pytest httpx && python -m pytest`.
 
    Para o agente Financeiro, é possível anexar um arquivo de dados (CSV ou TXT) à solicitação:  
    ```bash
@@ -93,9 +96,9 @@ Para publicar gratuitamente no **Streamlit Community Cloud**:
    ```
 5. Clique em **Deploy**. Em alguns minutos o app fica disponível em um link `https://....streamlit.app`.
 
-A `APP_PASSWORD` é recomendada: sem ela, qualquer pessoa com o link consegue usar o app e consumir a cota da sua chave.
+A `APP_PASSWORD` é obrigatória: sem ela o app fica bloqueado, para que ninguém com o link consuma a cota da sua chave.
 
-Para rodar a interface localmente: `streamlit run app.py`.
+Para rodar a interface localmente: defina `APP_PASSWORD` no `.env` e rode `streamlit run app.py`.
 
 ## 🤝 Contribuições  
 Contribuições são bem-vindas! Se você tem ideias para novos agentes ou melhorias, siga os passos abaixo:  

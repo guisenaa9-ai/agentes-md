@@ -28,9 +28,12 @@ st.set_page_config(page_title="AI Agents Hub", page_icon="🤖")
 
 
 def senha_correta() -> bool:
-    """Exige APP_PASSWORD, quando configurada, antes de liberar o app."""
+    """Exige APP_PASSWORD antes de liberar o app; sem ela, o acesso fica bloqueado."""
     senha = os.getenv("APP_PASSWORD")
-    if not senha or st.session_state.get("autenticado"):
+    if not senha:
+        st.error("Configure a variável APP_PASSWORD (no .env ou em Secrets) para liberar o app.")
+        return False
+    if st.session_state.get("autenticado"):
         return True
     digitada = st.text_input("Senha", type="password")
     if digitada and hmac.compare_digest(digitada, senha):
